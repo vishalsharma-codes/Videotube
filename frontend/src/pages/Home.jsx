@@ -12,6 +12,7 @@ function Home() {
                 const response = await axios.get("/videos");
 
                 console.log(response.data);
+                console.log(response.data.data.videos);
 
                 setVideos(response.data.data.videos);
             } catch (error) {
@@ -21,6 +22,7 @@ function Home() {
 
         fetchVideos();
     }, []);
+    console.log("VIDEOS STATE:", videos);
 
 return (
     <>
