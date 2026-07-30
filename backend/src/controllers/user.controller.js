@@ -11,7 +11,7 @@ const generateAccessAndRefreshTokens = async(userId)=> {
     try{
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
-        const refreshToken = user.generateRefeshToken()
+        const refreshToken = user.generateRefreshToken()
 
         user.refreshToken = refreshToken
         await user.save({validateBeforeSave: false})
@@ -193,17 +193,17 @@ const refreshAccessToken = asyncHandler(async(req,res) =>{
         secure:true
     }
 
-    const {accessToken, newRefreshToken} =
+    const {accessToken, RefreshToken} =
     await generateAccessAndRefreshTokens(user._id)
 
     return res
     .status(200)
     .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", newRefreshToken, options)
+    .cookie("refreshToken", RefreshToken, options)
     .json(
         new ApiResponse(
             200,
-            {accessToken, refreshToken:newRefreshToken},
+            {accessToken, refreshToken:RefreshToken},
             "access token refreshed"
         )
     )
@@ -258,7 +258,7 @@ const updateAccountDetails = asyncHandler(async(req,res) =>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200,"Account details updated Successfully"))
+    .json(new ApiResponse(200,user, "Account details updated Successfully"))
 })
 
 const updateUserAvatar = asyncHandler(async(req,res) =>{
@@ -286,7 +286,8 @@ const updateUserAvatar = asyncHandler(async(req,res) =>{
 
     return res
     .status(200)
-    .json(200, user, "Avatar updated successfully")
+    .json(new ApiResponse(
+        200, user, "Avatar updated successfully"))
 })
 
 const updateUserCoverImage = asyncHandler(async(req,res) =>{
@@ -314,13 +315,14 @@ const updateUserCoverImage = asyncHandler(async(req,res) =>{
 
     return res
     .status(200)
-    .json(200, user, "coverImage updated successfully")
+    .json(new ApiResponse(
+        200, user, "coverImage updated successfully"))
 })
 
 const getUserChannelProfile = asyncHandler(async(req,res) =>{
    const {username} = req.params
    
-   if(!username?.trim){
+   if(!username?.trim()){
         throw new ApiError(400,"Username is Missing")
    }
 
@@ -356,7 +358,7 @@ const getUserChannelProfile = asyncHandler(async(req,res) =>{
             },
             isSubscribed:{
                 $cond:{
-                    if:{$in:[req.user?._id, "$subscribers.subscribe"]},
+                    if:{$in:[req.user?._id, "$subscribers.subscriber"]},
                     then:true,
                     else:false
                 }
