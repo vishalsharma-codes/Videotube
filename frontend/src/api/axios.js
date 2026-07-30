@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL:"http://localhost:8000/api/v1",
+    baseURL:"https://videotube-u9v7.onrender.com",
     withCredentials:true
 })
