@@ -5,6 +5,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import mongoose from "mongoose"
 import jwt from "jsonwebtoken"
+import fs from "fs";
 
 
 const generateAccessAndRefreshTokens = async(userId)=> {
@@ -49,7 +50,7 @@ const registerUser = asyncHandler(async (req,res) =>{
 
     const avatarLocalPath= req.files?.avatar[0]?.path;
     // const coverImageLocalPath = req.files?.coverImage[0]?.path;
-    import fs from "fs";
+
     console.log("Avatar Path:", avatarLocalPath);
     console.log("Exists:", fs.existsSync(avatarLocalPath));
 
