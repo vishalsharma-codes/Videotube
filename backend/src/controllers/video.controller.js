@@ -244,7 +244,7 @@ const getVideoById = asyncHandler(async (req, res) => {
             $addFields: {
                 isLiked: {
                     $in: [
-                        req.user._id || null,
+                        req.user?._id || null,
                         "$likes.likedBy"
                     ]
                 }
