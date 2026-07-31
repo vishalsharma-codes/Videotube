@@ -179,6 +179,14 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid videoId");
     }
 
+    const currentUserId = req.user?._id;
+
+    isLiked: currentUserId
+    ? {
+        $in: [currentUserId, "$likes.likedBy"]
+      }
+    : false
+
     const video = await Video.aggregate([
         {
             $match: {
