@@ -20,10 +20,16 @@ function Login() {
                 data.username = login;
             }
 
-            const response = await axios.post("/users/login", data);
+           const response = await axios.post("/users/login", data);
 
-            console.log(response.data);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.data.user)
+            );
+
             alert("Login Successful");
+
+            
 
         } catch (error) {
             console.log(error.response?.data || error.message);
