@@ -1,2 +1,2 @@
 to open website:
-videotube-liard-nine.vercel.app
+https://videotube-liard-nine.vercel.app/
