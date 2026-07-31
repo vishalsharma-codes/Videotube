@@ -179,7 +179,7 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid videoId");
     }
 
-    const currentUserId = req.user?._id;
+    const currentUserId = req.user?._id || null;
 
     isLiked: currentUserId
     ? {
